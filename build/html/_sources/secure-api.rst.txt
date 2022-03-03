@@ -1,0 +1,85 @@
+
+Getting started
+===================================
+
+We are using Django REST Framework for dealing with APIs and to provide security to access those APIs we will be using third party authentication, Simple JWT(JSON Web Token)
+
+Requirements
+------------
+* Python (3.7, 3.8, 3.9, 3.10)
+* Django (2.2, 3.1, 3.2)
+
+Installation
+------------
+Using pip you can install:
+
+* Django REST Framework
+
+.. code-block:: python
+
+   pip install djangorestframework
+
+* Simple JWT
+
+.. code-block:: python
+
+   pip install djangorestframework-simplejwt
+
+
+Initial Setup
+-------------
+Add ``'rest_framework'`` to your ``INSTALLED_APPS`` in ``settings.py`` file.
+
+.. code-block:: python
+
+    INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    ]
+
+Then, your django project must be configured to use the library. In ``settings.py``, add ``rest_framework_simplejwt.authentication.JWTAuthentication`` to the list of authentication classes:
+
+.. code-block:: python
+
+   REST_FRAMEWORK = {
+   ...
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       ...
+       'rest_framework_simplejwt.authentication.JWTAuthentication',
+   )
+   ...
+   }
+
+In root ``urls.py`` file, add path that routes you to your app`s ``urls.py``. But of course, it is up to you how you want to route to your app with name of you choice.
+
+.. code-block:: python
+
+   from django.contrib import admin
+   from django.urls import path, include
+
+   urlpatterns = [
+   ...
+   path('admin/', admin.site.urls),
+   path('api/', include('api.urls')),
+   ...
+   ]
+
+In app`s ``urls.py``, we are using DefaultRouter for good practice. DefaultRouter is something used to handle all the requests like: GET, POST, PATCH, DELETE.
+
+.. code-block:: python
+
+   from django.urls import path, include
+   from rest_framework.routers import DefaultRouter
+   from api import views
+   from api.views import UserViewSet
+
+   # defaultRouter is something used to handle all the requests like: GET, POST, PATCH, DELETE
+   router = DefaultRouter()
+
+   # it can detect the request and calls methods like create(), list(), retrieve(), patch(), delete() automatically, from class UserViewSet, in views.py.
+   # register 'user' as the endpoint of API.
+   router.register(r'users', UserViewSet, basename='user')
+
+   urlpatterns = [
+    path('', include(router.urls)),
+   ]

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Securing APIs &mdash; Django REST Framework 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Building APIs" href="build_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Django REST Framework
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="build_api.html">Building APIs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Securing APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jwt-authentication">JWT Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initial-setup">Initial Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Django REST Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Securing APIs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/secure_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="securing-apis">
+<span id="secure-api"></span><h1>Securing APIs<a class="headerlink" href="#securing-apis" title="Permalink to this headline"></a></h1>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline"></a></h2>
+<p>Authentication is a mechanism of associating an incoming request with a set of credentials like username and password or token that are responsible for identifying a legit user. REST framework provides several authentication schemes out of the box, and also allows you to implement custom schemes.</p>
+</section>
+<section id="jwt-authentication">
+<h2>JWT Authentication<a class="headerlink" href="#jwt-authentication" title="Permalink to this headline"></a></h2>
+<p>JSON Web Token is a fairly new scheme of token-based authentication. Unlike the built-in TokenAuthentication scheme, JWT Authentication doesn’t need to use a database to validate a token. A package for JWT authentication is <code class="docutils literal notranslate"><span class="pre">djangorestframework-simplejwt</span></code>. It is a third party package.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Python (3.7, 3.8, 3.9, 3.10)</p></li>
+<li><p>Django (2.2, 3.1, 3.2)</p></li>
+<li><p>Django REST Framework (3.10, 3.11, 3.12)</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>Using pip you can install:</p>
+<ul class="simple">
+<li><p>Simple JWT</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">djangorestframework</span><span class="o">-</span><span class="n">simplejwt</span>
+</pre></div>
+</div>
+</section>
+<section id="initial-setup">
+<h2>Initial Setup<a class="headerlink" href="#initial-setup" title="Permalink to this headline"></a></h2>
+<p>Your django project must be configured to use the library. In <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>, add <code class="docutils literal notranslate"><span class="pre">rest_framework_simplejwt.authentication.JWTAuthentication</span></code> to the list of authentication classes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;DEFAULT_AUTHENTICATION_CLASSES&#39;</span><span class="p">:</span> <span class="p">(</span>
+    <span class="s1">&#39;rest_framework_simplejwt.authentication.JWTAuthentication&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In root <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file, add path that routes you to your app`s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>. But of course, it is up to you how you want to route to your app with name of you choice.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+<span class="o">...</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;api/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;api.urls&#39;</span><span class="p">)),</span>
+<span class="o">...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>In app`s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>, we are using DefaultRouter for good practice. DefaultRouter is something used to handle all the requests like: GET, POST, PATCH, DELETE.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
+<span class="kn">from</span> <span class="nn">rest_framework.routers</span> <span class="kn">import</span> <span class="n">DefaultRouter</span>
+<span class="kn">from</span> <span class="nn">api</span> <span class="kn">import</span> <span class="n">views</span>
+<span class="kn">from</span> <span class="nn">api.views</span> <span class="kn">import</span> <span class="n">UserViewSet</span>
+
+<span class="c1"># defaultRouter is something used to handle all the requests like: GET, POST, PATCH, DELETE</span>
+<span class="n">router</span> <span class="o">=</span> <span class="n">DefaultRouter</span><span class="p">()</span>
+
+<span class="c1"># it can detect the request and calls methods like create(), list(), retrieve(), patch(), delete() automatically, from class UserViewSet, in views.py.</span>
+<span class="c1"># register &#39;user&#39; as the endpoint of API.</span>
+<span class="n">router</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="n">UserViewSet</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+ <span class="n">path</span><span class="p">(</span><span class="s1">&#39;generate-token/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ApiGenerateToken</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;api_generate_token&#39;</span><span class="p">),</span>
+ <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">router</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h2>
+<p>We’re ready to generate access-token. To generate access-token, make a POST request: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000/api/generate-token/</span></code>.
+The following piece of code will go in your <code class="docutils literal notranslate"><span class="pre">views.py</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span> <span class="nn">rest_framework.response</span> <span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">rest_framework.views</span> <span class="kn">import</span> <span class="n">APIView</span>
+<span class="kn">from</span> <span class="nn">rest_framework_simplejwt.tokens</span> <span class="kn">import</span> <span class="n">RefreshToken</span>
+
+
+<span class="k">class</span> <span class="nc">ApiGenerateToken</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+
+        <span class="c1"># getting username and password</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;chaitanya&quot;</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
+
+        <span class="c1"># checking if user exists in database for authentication</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># if user exists in database then generate token for that user.</span>
+            <span class="n">refresh</span> <span class="o">=</span> <span class="n">RefreshToken</span><span class="o">.</span><span class="n">for_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;refresh&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">refresh</span><span class="p">),</span>
+                <span class="s1">&#39;access&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">refresh</span><span class="o">.</span><span class="n">access_token</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span>
+
+        <span class="c1"># return the response to where the API was called from</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above example will return you a dictionary of <cite>access</cite> and <cite>refresh</cite> tokens. Just like so. You need to have only value of <cite>access</cite> to access APIs.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;access&quot;</span><span class="p">:</span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2MjE5OTcxLCJpYXQiOjE2NDYyMTk2NzEsImp0aSI6IjIwNjdmNDQzY2ViYTQ4YWM4OWEwY2NmZmEwNDE5YWRjIiwidXNlcl9pZCI6MX0.dceTY6kZRceMGUgHSJk3ewa7zQDP-ZNYii4074h1WDc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;refresh&quot;</span><span class="p">:</span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0NjMwNjA3MSwiaWF0IjoxNjQ2MjE5NjcxLCJqdGkiOiIxYzJmYWZjMjIxMTA0YTNjOGM0YjY1ZmRlNzdiMDQ0ZSIsInVzZXJfaWQiOjF9.bbdn1sgCOTEl2aCpSPSrU78K7Z_2t0eoVg6fRU0WkNo&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The following code will again go in your <code class="docutils literal notranslate"><span class="pre">views.py</span></code> file to read the list of data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span><span class="p">,</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span> <span class="nn">rest_framework.response</span> <span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">rest_framework.permissions</span> <span class="kn">import</span> <span class="n">IsAuthenticated</span>
+
+
+<span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">UserViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ViewSet</span><span class="p">):</span>
+
+    <span class="c1"># &#39;IsAuthenticated&#39; class checks if the user is authenticated with the given token.</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_302_FOUND</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we will use the access token to read the list of users from database table. If you are using Client User Interface for making requests then this is how you would want to add ‘access’ token in your request:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer &quot;</span> <span class="o">+</span> <span class="n">access</span><span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://127.0.0.1:8000/api/users/&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The variable ‘response’ contains list of data in JSON format.</p>
+<p>Overall program, authentication with access to API.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span><span class="p">,</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span> <span class="nn">rest_framework.response</span> <span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">rest_framework.views</span> <span class="kn">import</span> <span class="n">APIView</span>
+<span class="kn">from</span> <span class="nn">rest_framework_simplejwt.tokens</span> <span class="kn">import</span> <span class="n">RefreshToken</span>
+<span class="kn">from</span> <span class="nn">rest_framework.permissions</span> <span class="kn">import</span> <span class="n">IsAuthenticated</span>
+
+
+<span class="k">class</span> <span class="nc">ApiGenerateToken</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+
+        <span class="c1"># getting username and password</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;chaitanya&quot;</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
+
+        <span class="c1"># checking if user exists in database for authentication</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># if user exists in database then generate token for that user.</span>
+            <span class="n">refresh</span> <span class="o">=</span> <span class="n">RefreshToken</span><span class="o">.</span><span class="n">for_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;refresh&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">refresh</span><span class="p">),</span>
+                <span class="s1">&#39;access&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">refresh</span><span class="o">.</span><span class="n">access_token</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span>
+
+        <span class="c1"># return the response to where the API was called from</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">UserViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ViewSet</span><span class="p">):</span>
+
+    <span class="c1"># &#39;IsAuthenticated&#39; class checks if the user is authenticated with the given token.</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_302_FOUND</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_302_FOUND</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="c1"># user object contains existing data and variable &#39;data&#39; contains new information to be replaced</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">(</span><span class="n">raise_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">serializer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build_api.html" class="btn btn-neutral float-left" title="Building APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chaitanya Gaikwad.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

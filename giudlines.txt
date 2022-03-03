@@ -1,0 +1,45 @@
+install sphinx
+run: shpinx-quickstart
+make html
+
+1. bold
+**bold**
+
+2. italics
+*italics*
+
+3. bullet points
+    * one
+    * two
+
+4.
+#. First do spam
+#. Then do ``eggs``: (eggs will be printed differently)
+
+5.
+.. _mytarget:
+
+:ref:`click here <mytarget>`
+
+6. .. figure:: /images/img.png
+      :alt: alt name of image
+      :scale: 40 %
+
+7. image
+this is target button --> |newbutton|
+.. |newbutton| image:: /images/img.png
+               :scale: 40 %
+
+8. embed youtube video
+
+.. raw:: html
+   <iframe></iframe>
+
+
+9.
+.. code-block:: python
+   write anything you want
+
+10.
+.. admonition:: Remember
+   write anything you want
