@@ -19,9 +19,7 @@ Requirements
 
 Installation
 ------------
-Using pip you can install:
-
-* Simple JWT
+Using pip you can install Simple JWT:
 
 .. code-block:: python
 
@@ -40,7 +38,7 @@ Your django project must be configured to use the library. In ``settings.py``, a
    )
    }
 
-In root ``urls.py`` file, add path that routes you to your app`s ``urls.py``. But of course, it is up to you how you want to route to your app with name of you choice.
+In root ``urls.py`` file, add path that routes you to your app`s ``urls.py``. But then again it is up to you, how you wish to route to your app.
 
 .. code-block:: python
 
@@ -77,7 +75,7 @@ In app`s ``urls.py``, we are using DefaultRouter for good practice. DefaultRoute
 
 Example
 -------
-We're ready to generate access-token. To generate access-token, make a POST request: ``http://127.0.0.1:8000/api/generate-token/``.
+We're ready to generate access-token. To generate access-token, make a POST request on: ``http://127.0.0.1:8000/api/generate-token/``.
 The following piece of code will go in your ``views.py``.
 
 .. code-block:: python
@@ -114,7 +112,7 @@ The following piece of code will go in your ``views.py``.
            return Response(tokens)
 
 
-The above example will return you a dictionary of `access` and `refresh` tokens. Just like so. You need to have only value of `access` to access APIs.
+The above example will return you a dictionary of **access** and **refresh** tokens. Just like so. You need to have only value of **access** to access APIs.
 
 .. code-block:: python
 
@@ -149,7 +147,7 @@ The following code will again go in your ``views.py`` file to read the list of d
            serializer = UserSerializer(queryset, many=True)
            return Response(serializer.data, status=status.HTTP_302_FOUND)
 
-Now we will use the access token to read the list of users from database table. If you are using Client User Interface for making requests then this is how you would want to add 'access' token in your request:
+Now we will use the access token to read the list of users from database table. If you are using Client User Interface for making requests then this is how you would want to add **access** token in your request:
 
 .. code-block:: python
 
@@ -160,7 +158,7 @@ Now we will use the access token to read the list of users from database table. 
 The variable 'response' contains list of data in JSON format.
 
 
-Overall program, authentication with access to API.
+Overall program with APIs and Authentication.
 
 .. code-block:: python
 

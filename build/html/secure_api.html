@@ -94,10 +94,7 @@
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
-<p>Using pip you can install:</p>
-<ul class="simple">
-<li><p>Simple JWT</p></li>
-</ul>
+<p>Using pip you can install Simple JWT:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">djangorestframework</span><span class="o">-</span><span class="n">simplejwt</span>
 </pre></div>
 </div>
@@ -112,7 +109,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>In root <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file, add path that routes you to your app`s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>. But of course, it is up to you how you want to route to your app with name of you choice.</p>
+<p>In root <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file, add path that routes you to your app`s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>. But then again it is up to you, how you wish to route to your app.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
 <span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
 
@@ -146,7 +143,7 @@
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h2>
-<p>We’re ready to generate access-token. To generate access-token, make a POST request: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000/api/generate-token/</span></code>.
+<p>We’re ready to generate access-token. To generate access-token, make a POST request on: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000/api/generate-token/</span></code>.
 The following piece of code will go in your <code class="docutils literal notranslate"><span class="pre">views.py</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
@@ -180,7 +177,7 @@ The following piece of code will go in your <code class="docutils literal notran
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The above example will return you a dictionary of <cite>access</cite> and <cite>refresh</cite> tokens. Just like so. You need to have only value of <cite>access</cite> to access APIs.</p>
+<p>The above example will return you a dictionary of <strong>access</strong> and <strong>refresh</strong> tokens. Just like so. You need to have only value of <strong>access</strong> to access APIs.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;access&quot;</span><span class="p">:</span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2MjE5OTcxLCJpYXQiOjE2NDYyMTk2NzEsImp0aSI6IjIwNjdmNDQzY2ViYTQ4YWM4OWEwY2NmZmEwNDE5YWRjIiwidXNlcl9pZCI6MX0.dceTY6kZRceMGUgHSJk3ewa7zQDP-ZNYii4074h1WDc&quot;</span><span class="p">,</span>
     <span class="s2">&quot;refresh&quot;</span><span class="p">:</span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0NjMwNjA3MSwiaWF0IjoxNjQ2MjE5NjcxLCJqdGkiOiIxYzJmYWZjMjIxMTA0YTNjOGM0YjY1ZmRlNzdiMDQ0ZSIsInVzZXJfaWQiOjF9.bbdn1sgCOTEl2aCpSPSrU78K7Z_2t0eoVg6fRU0WkNo&quot;</span>
@@ -211,14 +208,14 @@ The following piece of code will go in your <code class="docutils literal notran
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_302_FOUND</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now we will use the access token to read the list of users from database table. If you are using Client User Interface for making requests then this is how you would want to add ‘access’ token in your request:</p>
+<p>Now we will use the access token to read the list of users from database table. If you are using Client User Interface for making requests then this is how you would want to add <strong>access</strong> token in your request:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer &quot;</span> <span class="o">+</span> <span class="n">access</span><span class="p">}</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://127.0.0.1:8000/api/users/&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The variable ‘response’ contains list of data in JSON format.</p>
-<p>Overall program, authentication with access to API.</p>
+<p>Overall program with APIs and Authentication.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span><span class="p">,</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">status</span>

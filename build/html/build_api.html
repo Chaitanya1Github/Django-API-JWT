@@ -75,8 +75,8 @@
              
   <section id="building-apis">
 <h1>Building APIs<a class="headerlink" href="#building-apis" title="Permalink to this headline"></a></h1>
-<p>Django REST framework is a powerful and flexible toolkit for building Web APIs. It is expected to have little knowledge Django, at least you should know how to create project and app and perform migration.
-In this section you will be able to build your own APIs and modify them.
+<p>Django REST framework is a powerful and flexible toolkit for building Web APIs. To follow this tutorial it is expected to have little knowledge of Django, at least you should be able to create project and app and perform migrations.
+In this section you will learn to build your own APIs and modify them.
 In next section, you will see <a class="reference internal" href="secure_api.html#secure-api"><span class="std std-ref">how to secure APIs</span></a> using JWT Authentication.</p>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
@@ -101,7 +101,7 @@ In next section, you will see <a class="reference internal" href="secure_api.htm
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>In root <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file, add path that routes you to your app`s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>. But of course, it is up to you how you want to route to your app with name of you choice.</p>
+<p>In root <code class="docutils literal notranslate"><span class="pre">urls.py</span></code> file, add path that routes you to your app`s <code class="docutils literal notranslate"><span class="pre">urls.py</span></code>. But of course, it is up to you, how you want to setup your routes.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
 <span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
 
@@ -123,7 +123,7 @@ In next section, you will see <a class="reference internal" href="secure_api.htm
 <span class="n">router</span> <span class="o">=</span> <span class="n">DefaultRouter</span><span class="p">()</span>
 
 <span class="c1"># it can detect the request and calls methods like create(), list(), retrieve(), patch(), delete() automatically, from class UserViewSet, in views.py.</span>
-<span class="c1"># register &#39;user&#39; as the endpoint of API.</span>
+<span class="c1"># register &#39;users&#39; as an endpoint of API.</span>
 <span class="n">router</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="n">UserViewSet</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
 
 <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
@@ -141,7 +141,7 @@ The following piece of code will go in your <code class="docutils literal notran
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 
 
-<span class="c1"># Serializers define the API representation.</span>
+<span class="c1"># Serializers define the API representation in JSON.</span>
 <span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
@@ -197,7 +197,7 @@ The following piece of code will go in your <code class="docutils literal notran
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span><span class="p">)</span>
 
     <span class="c1"># this method is used to delete the given record</span>
-    <span class="c1"># accepts only DELETE request with an argument to find record in table and delete.</span>
+    <span class="c1"># accepts only DELETE request with an argument to find record in table and delete it.</span>
     <span class="c1"># http://127.0.0.1:8000/api/users/1/</span>
     <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>

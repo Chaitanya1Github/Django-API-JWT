@@ -1,7 +1,7 @@
 Building APIs
 =============
-Django REST framework is a powerful and flexible toolkit for building Web APIs. It is expected to have little knowledge Django, at least you should know how to create project and app and perform migration.
-In this section you will be able to build your own APIs and modify them.
+Django REST framework is a powerful and flexible toolkit for building Web APIs. To follow this tutorial it is expected to have little knowledge of Django, at least you should be able to create project and app and perform migrations.
+In this section you will learn to build your own APIs and modify them.
 In next section, you will see :ref:`how to secure APIs <secure_api>` using JWT Authentication.
 
 
@@ -31,7 +31,7 @@ Add ``'rest_framework'`` to your ``INSTALLED_APPS`` in ``settings.py`` file.
     ]
 
 
-In root ``urls.py`` file, add path that routes you to your app`s ``urls.py``. But of course, it is up to you how you want to route to your app with name of you choice.
+In root ``urls.py`` file, add path that routes you to your app`s ``urls.py``. But of course, it is up to you, how you want to setup your routes.
 
 .. code-block:: python
 
@@ -58,7 +58,7 @@ In app`s ``urls.py``, we are using DefaultRouter for good practice. DefaultRoute
    router = DefaultRouter()
 
    # it can detect the request and calls methods like create(), list(), retrieve(), patch(), delete() automatically, from class UserViewSet, in views.py.
-   # register 'user' as the endpoint of API.
+   # register 'users' as an endpoint of API.
    router.register(r'users', UserViewSet, basename='user')
 
    urlpatterns = [
@@ -77,7 +77,7 @@ The following piece of code will go in your ``views.py``.
    from django.contrib.auth.models import User
 
 
-   # Serializers define the API representation.
+   # Serializers define the API representation in JSON.
    class UserSerializer(serializers.ModelSerializer):
        class Meta:
            model = User
@@ -133,7 +133,7 @@ The following piece of code will go in your ``views.py``.
            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
        # this method is used to delete the given record
-       # accepts only DELETE request with an argument to find record in table and delete.
+       # accepts only DELETE request with an argument to find record in table and delete it.
        # http://127.0.0.1:8000/api/users/1/
        def delete(self, request, pk):
            user = User.objects.get(pk=pk)
